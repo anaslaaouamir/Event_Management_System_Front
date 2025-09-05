@@ -1,0 +1,175 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@700&display=swap");
+
+:root {
+  /* Colors */
+  --brand-color: hsl(46, 100%, 50%);
+  --black: hsl(0, 0%, 0%);
+  --white: hsl(0, 0%, 100%);
+  /* Fonts */
+  --font-title: "Montserrat", sans-serif;
+  --font-text: "Lato", sans-serif;
+}
+
+/* RESET */
+
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin */
+body,
+h2,
+p {
+  margin: 0;
+}
+
+/* GLOBAL STYLES */
+h2 {
+  font-size: 2.25rem;
+  font-family: var(--font-title);
+  color: white;
+  line-height: 1.1;
+}
+
+p {
+  font-family: var(--font-text);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--white);
+}
+
+.flow > * + * {
+  margin-top: var(--flow-space, 1em);
+}
+
+/* CARD COMPONENT */
+
+.card {
+  position: relative; /* for overlay */
+  display: block; /* instead of grid */
+  width: 80vw;
+  max-width: 21.875rem;
+  height: 40rem;
+  overflow: hidden;
+  border-radius: 0.625rem;
+  box-shadow: 0.25rem 0.25rem 0.5rem rgba(0, 0, 0, 0.25);
+}
+
+.card > * {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+/* IMAGE WITH DARK + BLUR EFFECT */
+.card__background {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(80%) blur(0px); /* darken + blur */
+  transition: transform 500ms ease-in, filter 500ms ease-in;
+}
+
+/* Netflix-style overlay for text */
+.card__content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.5rem;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 1; /* above image */
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.3) 40%,
+    rgba(0, 0, 0, 0) 100%
+  ); /* subtle gradient for readability */
+}
+
+.card__content--container {
+  --flow-space: 1.25rem;
+}
+
+.card__title {
+  position: relative;
+  width: fit-content;
+  width: -moz-fit-content; /* Firefox */
+  font-size: 1.5rem;
+  font-family: var(--font-title);
+  margin: 0;
+}
+
+.card__title::after {
+  content: "";
+  position: absolute;
+  height: 0.3125rem;
+  width: calc(100% + 1.25rem);
+  bottom: calc((1.25rem - 0.5rem) * -1);
+  left: -1.25rem;
+  background-color: var(--brand-color);
+  opacity: 0; /* hidden until hover */
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: opacity 500ms ease-in, transform 500ms ease-out;
+}
+
+.card__description {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #ddd;
+}
+
+.card__button {
+  padding: 0.75em 1.6em;
+  width: fit-content;
+  width: -moz-fit-content;
+  font-variant: small-caps;
+  font-weight: bold;
+  border-radius: 0.45em;
+  border: none;
+  background-color: var(--brand-color);
+  font-family: var(--font-title);
+  font-size: 1.125rem;
+  color: var(--black);
+  cursor: pointer;
+}
+
+.card__button:focus {
+  outline: 2px solid black;
+  outline-offset: -5px;
+}
+
+/* Hover effects */
+@media (any-hover: hover) and (any-pointer: fine) {
+  .card:hover,
+  .card:focus-within {
+    transform: scale(1.05);
+    transition: transform 500ms ease-in;
+  }
+
+  .card:hover .card__background,
+  .card:focus-within .card__background {
+    transform: scale(1.3); /* zoom image */
+    filter: brightness(40%) blur(3px); /* keep blur + dark on hover */
+  }
+
+  .card:hover .card__title::after,
+  .card:focus-within .card__title::after {
+    opacity: 1;
+    transform: scaleX(1);
+    transform-origin: center;
+  }
+}
+
+/* Layout for multiple cards */
+.card-container {
+  display: flex;
+  flex-wrap: wrap; /* allows cards to move to the next row */
+  gap: 20px; /* space between cards */
+}
