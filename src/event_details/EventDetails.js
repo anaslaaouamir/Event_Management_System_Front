@@ -17,15 +17,13 @@ const EventDetails = () => {
 
   const classes = event.classes || [];
 
-  // Calculate total capacity
-  const capacity = classes.reduce((total, classe) => total + classe.capacity, 0);
 
 
   return (
     <>
       <Head event={event} client = {client}/>
       <Description event={event} classes={classes}  />
-      <Summary event={event} capacity={capacity}/>
+      <Summary event={event} />
     </>
   );
 };

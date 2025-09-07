@@ -36,6 +36,26 @@ export const DataProvider = ({ children }) => {
         localStorage.removeItem('token'); // remove from storage
         navigate("/");
     };
+
+
+    // 🔑 Setup Axios interceptor ONCE when provider mounts
+    useEffect(() => {
+        const interceptor = axios.interceptors.response.use(
+            response => response,
+            error => {
+                if (error.response && error.response.status === 401) {
+                    console.warn("Token expired → logging out...");
+                    logout();
+                }
+                return Promise.reject(error);
+            }
+        );
+
+        // Cleanup interceptor when component unmounts
+        return () => {
+            axios.interceptors.response.eject(interceptor);
+        };
+    }, []);
     
 
 
@@ -57,7 +77,10 @@ export const DataProvider = ({ children }) => {
             axios.get("http://localhost:9091/clients/me", {
                 headers: { Authorization: `Bearer ${token}` }
             })
-            .then(response => setClient(response.data))
+            
+            .then(response => 
+            {setClient(response.data)
+            console.log(response.data)})
             .catch(error => console.error("Error fetching client data:", error));
         }
     }, [token])

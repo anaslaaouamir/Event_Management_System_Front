@@ -173,3 +173,59 @@ p {
   flex-wrap: wrap; /* allows cards to move to the next row */
   gap: 20px; /* space between cards */
 }
+
+
+.edit {
+  padding: 0.75em 1.6em;
+  width: fit-content;
+  width: -moz-fit-content;
+  font-variant: small-caps;
+  font-weight: bold;
+  border-radius: 0.45em;
+  border: none;
+  background-color: #4288c9;
+  font-family: var(--font-title);
+  font-size: 1.125rem;
+  color: white;
+  cursor: pointer;
+}
+
+.delete {
+  padding: 0.75em 1.6em;
+  width: fit-content;
+  width: -moz-fit-content;
+  font-variant: small-caps;
+  font-weight: bold;
+  border-radius: 0.45em;
+  border: none;
+  background-color: #ed2132;
+  font-family: var(--font-title);
+  font-size: 1.125rem;
+  color: white;
+  cursor: pointer;
+}
+
+.inline {
+  display: flex;          /* put children in a row */
+  gap: 20px;              /* space between Edit and Delete */
+}
+
+
+
+
+.card__reservation {
+
+  font-size: 1.2rem;
+  color: white;       /* highlight with brand color */
+  font-weight: 600;
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+
+.card__reservation span {
+  background-color: rgba(0,0,0,0.3);
+  padding: 2px 6px;
+  border-radius: 4px;
+}

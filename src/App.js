@@ -7,6 +7,7 @@ import EventDetails from "./event_details/EventDetails";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Reserver from "./reserver/reserver";
 import ReservationList from "./reservations/reservations_list";
+import EditEvent from "./admin/editEvent/editEvent";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route path="/event/:id" element={<EventDetails />} />
           <Route path="/reserver/:id" element={<Reserver />} />
           <Route path="/my_reservations" element={<ReservationList />} />
+          <Route path="/edit_event/:id" element={<EditEvent/>}/>
         </Routes>
       </div>
       </DataProvider>

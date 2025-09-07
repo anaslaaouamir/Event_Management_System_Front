@@ -4,7 +4,7 @@ import axios from "axios";
 import { useContext } from 'react';
 import DataContext from '../context/DataContext';
 
-const ReserverForm = ({ event, classes, token }) => {
+const ReserverForm = ({ event, classes, token, setEvents }) => {
     const { client, setReservations , reservations,events} = useContext(DataContext);
     const [selectedClasseId, setSelectedClasseId] = useState("");
     const [error, setError] = useState("");
@@ -46,6 +46,40 @@ const ReserverForm = ({ event, classes, token }) => {
 
             console.log("Reservation successful:", response.data);
             setReservations([...reservations,response.data]);
+
+            // ---------------------------
+        // Update the events state
+        // ---------------------------
+        // 1. Copy the old events array
+        const updatedEvents = events.map(ev => {
+            // 2. Find the event that matches the current one
+            if (ev.idEvent === event.idEvent) {
+                // 3. Update the classes array inside this event
+                const updatedClasses = ev.classes.map(c => {
+                    if (c.idClass === classe.idClass) {
+                        // 4. Reduce the available capacity by 1
+                        return {
+                            ...c, // copy all other properties of the class
+                            capacity: c.capacity - 1
+                        };
+                    } else {
+                        return c; // other classes remain the same
+                    }
+                });
+
+                // 5. Return the updated event object
+                return {
+                    ...ev, // copy all other properties of the event
+                    classes: updatedClasses,
+                    capacity: ev.capacity-1
+                };
+            } else {
+                return ev; // other events remain the same
+            }
+        });
+
+        // 6. Set the new events array into state
+        setEvents(updatedEvents);
 
             // 👉 you can redirect or show success message here
         } catch (err) {

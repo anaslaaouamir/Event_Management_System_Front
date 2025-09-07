@@ -6,7 +6,7 @@ import DataContext from "../context/DataContext";
 
 const ReservationList = () =>{
 
-    const{reservations, setReservations, token} = useContext(DataContext);
+    const{reservations, setReservations, token, events, setEvents} = useContext(DataContext);
 
     return (
 
@@ -31,7 +31,7 @@ const ReservationList = () =>{
                               <th>Cancel</th>
 						    </tr>
 						  </thead>
-						  <Reservation reservations={reservations} setReservations={setReservations} token={token}/>
+						  <Reservation reservations={reservations} setReservations={setReservations} token={token} events={events} setEvents={setEvents} />
 						</table>
 					</div>
 				</div>

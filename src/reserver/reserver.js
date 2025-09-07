@@ -10,7 +10,7 @@ const Reserver = ()=>{
 	const {token} = useContext(DataContext);
 
 	const { id } = useParams();
-  	const { events, isLoading } = useContext(DataContext);
+  	const { events, isLoading , setEvents} = useContext(DataContext);
 
   if (isLoading) return <h2>Loading...</h2>;
 
@@ -30,7 +30,7 @@ const Reserver = ()=>{
 							<h1>{event.title}</h1>
 						</div>
                         
-						<ReserverForm event={event} classes={classes} token= {token}/>
+						<ReserverForm event={event} classes={classes} token= {token} setEvents={setEvents} events={events} />
                         
 					</div>
 				</div>
