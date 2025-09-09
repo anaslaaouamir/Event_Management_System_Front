@@ -1,23 +1,22 @@
 .section {
-	position: relative;
-	height: 100vh;
-}
+	min-height: 100vh;       /* fill at least screen */
+	background-repeat: no-repeat;
+	background-size: cover;  /* already in inline style */
+	background-position: center;
+  }
+  
 
-.section .section-center {
-	position: absolute;
-	top: 50%;
-	left: 0;
-	right: 0;
-	-webkit-transform: translateY(-50%);
-	transform: translateY(-50%);
-}
-
-#booking {
+  .section .section-center {
+	position: relative;   /* let content flow normally */
+	top: auto;
+	transform: none;
+  }
+/* #booking {
 	font-family: 'Montserrat', sans-serif;
 	background-image: url('../../images/backgrounds/header.jpg');
 	background-size: cover;
 	background-position: center;
-}
+} */
 
 #booking::before {
 	content: '';
@@ -167,4 +166,8 @@
 	height: 80px;   /* adjust as you like */
 	resize: vertical; /* allow user to resize manually (optional) */
   }
+  
+
+
+
   

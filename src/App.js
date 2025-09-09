@@ -21,8 +21,9 @@ function App() {
      
      <BrowserRouter>
       <DataProvider>
-      <div className="app-container">
+      
       <ResponsiveAppBar/>
+      <div className="app-container">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

@@ -42,7 +42,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 
 function ResponsiveAppBar() {
 
-  const { token , logout} = useContext(DataContext);
+  const { token , logout, client} = useContext(DataContext);
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -54,6 +54,7 @@ function ResponsiveAppBar() {
 
   // ✅ Get search state from DataContext
   const { search, setSearch } = useContext(DataContext);
+
 
   return (
     <AppBar position="static">
@@ -209,32 +210,65 @@ function ResponsiveAppBar() {
                 sx: { backgroundColor: 'grey.900', color: 'white' },
               }}
             >
-              {token
-                ? 
+              {client && client.roles.includes("ROLE_ADMIN") ?
+                 
                 <div>
+                    <MenuItem
+                      key="add_event"
+                      
+                      sx={{ color: 'white' }}
+                    >
+                      <Typography sx={{ textAlign: 'center', color: 'white' }}>
+                        Add new Event
+                      </Typography>
+                    </MenuItem>
+
+
                     <MenuItem
                       key="logout"
                       onClick={logout}
                       sx={{ color: 'white' }}
                     >
                       <Typography sx={{ textAlign: 'center', color: 'white' }}>
-                        Logout
+                        Log out
                       </Typography>
                     </MenuItem>
 
-                    <Link to={`/my_reservations`}>
+                    </div>
+                :
+
+                null}
+
+{client && client.roles.includes("ROLE_USER") ?  
+                <div>
+                   <Link to={`/my_reservations`}>
                     <MenuItem
-                      key="My Reservations"
+                      key="my_reservations"
+                      
                       sx={{ color: 'white' }}
                     >
                       <Typography sx={{ textAlign: 'center', color: 'white' }}>
                         My Reservations
                       </Typography>
-                    </MenuItem>
-                    </Link>
+                    </MenuItem></Link>
 
-                </div> 
-  
+
+                    <MenuItem
+                      key="logout"
+                      onClick={logout}
+                      sx={{ color: 'white' }}
+                    >
+                      <Typography sx={{ textAlign: 'center', color: 'white' }}>
+                        Log out
+                      </Typography>
+                    </MenuItem>
+                    
+                    </div>
+                
+                    
+
+                  
+                    
                 : null }
 
     {!token ?

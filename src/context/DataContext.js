@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from 'react';
 import useAxiosFetch from '../hooks/useAxiosFetch';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import { event } from 'jquery';
 
 
 const DataContext = createContext({});
@@ -24,6 +25,9 @@ export const DataProvider = ({ children }) => {
 
     const [token, setToken] = useState(localStorage.getItem('token') || null);
 
+    const [eventId, setEventId] = useState(null);
+
+    const [reservationsByEvent, setReservationsByEvent] = useState([]);
 
     const login = (newToken) => {
         setToken(newToken);
@@ -97,10 +101,22 @@ export const DataProvider = ({ children }) => {
             })
             .catch(error => console.error("Error fetching reservations:", error));
         }
-    }, [token, client]);  // ✅ run when token or client updates
+    }, [token, client]);
     
-
-
+    
+    useEffect(() => {
+        if (token && eventId) {
+            axios.get(`http://localhost:9093/reservations_event/${eventId}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            .then(response => {
+                console.log("Reservations fetched:", response.data);
+                setReservationsByEvent(response.data);
+            })
+            .catch(error => console.error("Error fetching reservations:", error));
+        }
+    }, [token, client]);
+    
 
     return (
         <DataContext.Provider value={{
@@ -109,7 +125,8 @@ export const DataProvider = ({ children }) => {
             events, setEvents,
             client,
             login, token, logout,
-            reservations, setReservations
+            reservations, setReservations,
+            setEventId, reservationsByEvent
         }}>
             {children}
         </DataContext.Provider>
