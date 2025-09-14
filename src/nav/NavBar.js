@@ -53,8 +53,7 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => setAnchorElUser(null);
 
   // ✅ Get search state from DataContext
-  const { search, setSearch } = useContext(DataContext);
-
+  const { search, setSearch, searchLabel } = useContext(DataContext);
 
   return (
     <AppBar position="static">
@@ -166,7 +165,7 @@ function ResponsiveAppBar() {
             <input
               id="search"
               type="text"
-              placeholder="Search Events"
+              placeholder={searchLabel}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               style={{
@@ -213,6 +212,19 @@ function ResponsiveAppBar() {
               {client && client.roles.includes("ROLE_ADMIN") ?
                  
                 <div>
+
+                  <Link to={`/reservations`}>
+                    <MenuItem
+                      key="reservations"
+                      
+                      sx={{ color: 'white' }}
+                    >
+                      <Typography sx={{ textAlign: 'center', color: 'white' }}>
+                        Reservations
+                      </Typography>
+                    </MenuItem></Link>
+
+                  <Link to={`/add_event`}>
                     <MenuItem
                       key="add_event"
                       
@@ -221,7 +233,7 @@ function ResponsiveAppBar() {
                       <Typography sx={{ textAlign: 'center', color: 'white' }}>
                         Add new Event
                       </Typography>
-                    </MenuItem>
+                    </MenuItem></Link>
 
 
                     <MenuItem
@@ -241,6 +253,19 @@ function ResponsiveAppBar() {
 
 {client && client.roles.includes("ROLE_USER") ?  
                 <div>
+
+                  <Link to={`/profile`}>
+                    <MenuItem
+                      key="my_reservations"
+                      
+                      sx={{ color: 'white' }}
+                    >
+                      <Typography sx={{ textAlign: 'center', color: 'white' }}>
+                        My Profile
+                      </Typography>
+                    </MenuItem>
+                  </Link>
+
                    <Link to={`/my_reservations`}>
                     <MenuItem
                       key="my_reservations"

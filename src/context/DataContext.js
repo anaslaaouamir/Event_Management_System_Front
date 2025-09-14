@@ -29,6 +29,10 @@ export const DataProvider = ({ children }) => {
 
     const [reservationsByEvent, setReservationsByEvent] = useState([]);
 
+    const[searchLabel,setSearchLabel]=useState('Search Event');
+
+    const [reservationsByEventResults, setReservationsByEventResults] = useState([]);
+
     const login = (newToken) => {
         setToken(newToken);
         localStorage.setItem('token', newToken);
@@ -76,6 +80,17 @@ export const DataProvider = ({ children }) => {
     }, [events, search])
 
     useEffect(() => {
+        if (search) {
+            const filteredResults = reservationsByEvent.filter((res) =>
+                res.client.name.toLowerCase().includes(search.toLowerCase())
+            );
+            setReservationsByEventResults(filteredResults.reverse());
+        } else {
+            setReservationsByEventResults(reservationsByEvent);
+        }
+    }, [search, reservationsByEvent]);
+
+    useEffect(() => {
         
         if (token) {
             axios.get("http://localhost:9091/clients/me", {
@@ -102,6 +117,7 @@ export const DataProvider = ({ children }) => {
             .catch(error => console.error("Error fetching reservations:", error));
         }
     }, [token, client]);
+
     
     
     useEffect(() => {
@@ -115,7 +131,7 @@ export const DataProvider = ({ children }) => {
             })
             .catch(error => console.error("Error fetching reservations:", error));
         }
-    }, [token, client]);
+    }, [token, eventId]);   
     
 
     return (
@@ -123,10 +139,11 @@ export const DataProvider = ({ children }) => {
             search, setSearch,
             searchResults, fetchError, isLoading,
             events, setEvents,
-            client,
+            client, setClient,
             login, token, logout,
             reservations, setReservations,
-            setEventId, reservationsByEvent
+            setEventId, reservationsByEvent, setReservationsByEvent,
+            setSearchResults,searchLabel,setSearchLabel, reservationsByEventResults
         }}>
             {children}
         </DataContext.Provider>

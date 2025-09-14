@@ -1,5 +1,6 @@
 import { useState , useEffect} from "react";
 import axios from "axios"; 
+import { Link } from "react-router-dom";
 
 const EditEventForm = ({ event, classes, token, events, setEvents }) => {
   const [error, setError] = useState("");
@@ -164,6 +165,10 @@ const EditEventForm = ({ event, classes, token, events, setEvents }) => {
 
 
       <div className="form-btn">
+      <Link to={`/add_class/${event.idEvent}`}>
+        <p style={{ color: "#fff", marginBottom: "10px", fontSize: "12px"}}>Add new class?</p>
+      </Link>
+  
         <button type="submit" className="submit-btn">
           Update Event
         </button>
