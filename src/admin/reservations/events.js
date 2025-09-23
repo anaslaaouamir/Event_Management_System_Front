@@ -14,7 +14,7 @@ const Events = ({reservations, setReservations,token, events, setEvents}) =>{
         try {
 
             const response = await axios.delete(
-                `http://localhost:9093/reservations/${id}`,
+                `http://localhost:8888/RESERVATION-RESERVATION/reservations/${id}`,
                 {
                     headers: { Authorization: `Bearer ${token}` }
                 }
@@ -78,18 +78,19 @@ const Events = ({reservations, setReservations,token, events, setEvents}) =>{
 						    	<td>
                                 <div
                                     className="img1"
-                                    style={{ backgroundImage: `url(http://localhost:9092/${event.imagePath})` }}>
+                                    style={{ backgroundImage: `url(http://localhost:8888/EVENT-SERVICE/${event.imagePath})` }}>
                                 </div>
 
 						    	</td>
 						      <td>
 						      	<div className="email">
                                   {event.title}
-						      	</div>
+						      	</div> 
 						      </td>
+                              <td>{formattedDate(event.eventDateTime)}</td>
 						      <td>{event.fullCapacity - event.capacity} </td>
                               <td>{event.capacity}</td>
-						      <td>{formattedDate(event.eventDateTime)}</td>
+						      
                               <td>{isFinished(event.eventDateTime) ? 'Finished' : 'Not finished'}</td>
 						      
                               <td>

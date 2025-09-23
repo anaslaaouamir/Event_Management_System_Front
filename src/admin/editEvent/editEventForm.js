@@ -1,8 +1,11 @@
 import { useState , useEffect} from "react";
 import axios from "axios"; 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const EditEventForm = ({ event, classes, token, events, setEvents }) => {
+const EditEventForm = ({ event, classes, token, events, setEvents, setAlert }) => {
+
+  const navigate = useNavigate();
+
   const [error, setError] = useState("");
 
   // Controlled states
@@ -42,7 +45,7 @@ const EditEventForm = ({ event, classes, token, events, setEvents }) => {
   
     try {
       const response = await axios.put(
-        `http://localhost:9092/events/${event.idEvent}`,
+        `http://localhost:8888/EVENT-SERVICE/events/${event.idEvent}`,
         {
           title,
           location,
@@ -63,6 +66,12 @@ const EditEventForm = ({ event, classes, token, events, setEvents }) => {
       ev.idEvent === updatedEvent.idEvent ? updatedEvent : ev
       ));         
       console.log("Event updated:", updatedEvent);
+      setAlert({
+        type: "success",
+        message: "Event updated successfully!",
+        show: true,
+      });
+      navigate(`/`);
     } catch (err) {
       console.error("Update error:", err);
       setError("Update failed");

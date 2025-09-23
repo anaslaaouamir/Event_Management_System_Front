@@ -13,6 +13,7 @@ import AddEvent from "./admin/addEvent/addEvent";
 import AddClass from "./admin/addEvent/addClasses";
 import Profile from "./profile/profile";
 import EventList from "./admin/reservations/events_list";
+import Register from "./register/register";
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/event/:id" element={<EventDetails />} />
           <Route path="/reserver/:id" element={<Reserver />} />
           <Route path="/my_reservations" element={<ReservationList />} />

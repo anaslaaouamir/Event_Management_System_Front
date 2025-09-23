@@ -3,6 +3,7 @@ import "./table.css";
 import DataContext from "../../context/DataContext";
 import { useParams } from "react-router-dom";
 import Reservation from "./reservations";
+import Popup from "../../pop_up";
 
 const ReservationListByEvent=()=>{
 
@@ -12,10 +13,10 @@ const ReservationListByEvent=()=>{
 		setSearchLabel("Search Client");
 
 	}, [])
-
+ 
     const { id } = useParams();
 
-    const{setSearchLabel, reservationsByEventResults, setReservationsByEvent, events, setEvents, token, setEventId, isLoading, setSearchResults,setSearch} = useContext(DataContext);
+    const{setSearchLabel, reservationsByEventResults, setReservationsByEvent, events, setEvents, token, setEventId, isLoading, setSearchResults,setSearch , alert, setAlert, confirm, setConfirm} = useContext(DataContext);
 
     if (isLoading) return <h2>Loading...</h2>;
 
@@ -28,6 +29,12 @@ const ReservationListByEvent=()=>{
 	
 
     return (
+
+		
+		<>
+		{alert && 
+        <Popup alert={alert} setAlert={setAlert} />
+        }
 
 		<div className="container">
 			<div className="row justify-content-center">
@@ -47,16 +54,16 @@ const ReservationListByEvent=()=>{
 						      <th>Price</th>
 						      <th>Event Date</th>
 						      <th>Reservation Date</th>
-                              <th>Cancel</th>
+                              <th>Cancel</th> 
 						    </tr>
 						  </thead>
-						  <Reservation reservations={reservationsByEventResults} setReservations={setReservationsByEvent} token={token} events={events} setEvents={setEvents} classses={classes} setSearchResults={setSearchResults} />
+						  <Reservation reservations={reservationsByEventResults} setReservations={setReservationsByEvent} token={token} events={events} setEvents={setEvents} classses={classes} setSearchResults={setSearchResults} confirm={confirm} setConfirm={setConfirm} setAlert={setAlert} />
 						</table>
 					</div>
 				</div>
 			</div>
 		</div>
-
+		</>
     );
 }
 

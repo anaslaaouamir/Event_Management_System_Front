@@ -15,7 +15,7 @@ const Description = ({event,classes}) => {
                     <br/>
                     <h3 className="section-title">Salle</h3> 
                     <figure>
-                        <img alt="" className="img-responsive" src={`http://localhost:9092/${event.salleImagePath}`}/>
+                        <img alt="" className="img-responsive" src={`http://localhost:8888/EVENT-SERVICE/${event.salleImagePath}`}/>
                     </figure>
 
                 </div>

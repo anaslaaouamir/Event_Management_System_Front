@@ -34,7 +34,7 @@ const Head = ({ event , client}) => {
             <header className="site-header">
                 <div className="overlay">
                     <img 
-                        src={`http://localhost:9092/${event.imagePath}`} 
+                        src={`http://localhost:8888/EVENT-SERVICE/${event.imagePath}`} 
                         alt={event.title} 
                         className="header-image"
                     />

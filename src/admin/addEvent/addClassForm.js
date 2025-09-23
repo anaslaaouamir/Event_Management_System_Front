@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios"; 
 import { Link } from "react-router-dom";
 
-const AddClassForm =({event,token,events,setEvents})=>{
+const AddClassForm =({event,token,events,setEvents,setAlert})=>{
 
     const[descriptionClass,setDescriptionClass]=useState('');
     const[className,setClassName]=useState('');
@@ -16,7 +16,7 @@ const AddClassForm =({event,token,events,setEvents})=>{
         try {
 
             const response = await axios.post(
-                "http://localhost:9092/classes",
+                "http://localhost:8888/EVENT-SERVICE/classes",
                 {
                      className,
                      description: descriptionClass,
@@ -35,7 +35,11 @@ const AddClassForm =({event,token,events,setEvents})=>{
                 ev.idEvent === event.idEvent ? response.data : ev
                 )); 
             setCapacity('');setClassName('');setDescriptionClass('');
-            console.log("events   "+JSON.stringify(events));
+            setAlert({
+              type: "success",
+              message: "Class added successfully!",
+              show: true,
+            });
 
         } catch (err) {
             console.error("Event error:", err);

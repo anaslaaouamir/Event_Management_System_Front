@@ -3,10 +3,11 @@ import EditProfileForm from './EditProfileForm';
 import './profile.css';
 import DataContext from '../context/DataContext';
 import axios from 'axios';
+import Popup from '../pop_up';
  
 const Profile = () => {
 
-  const {client,setClient,token} = useContext(DataContext);
+  const {client,setClient,token , alert, setAlert} = useContext(DataContext);
 
     const [name,setName]=useState("");
     const[email,setEmail]=useState("");
@@ -31,7 +32,7 @@ const Profile = () => {
       try {
 
         const response = await axios.put(
-          `http://localhost:9091/clients/${client.idClient}`,
+          `http://localhost:8888/CLIENT-SERVICE/clients/${client.idClient}`,
           {
             name,
             email,
@@ -45,6 +46,11 @@ const Profile = () => {
     
         setClient(response.data);
         console.log("client: ",response.data);
+        setAlert({
+          type: "success",
+          message: "Your personal data changed successfully!",
+          show: true,
+        });
       } catch (err) {
         console.error("Update error:", err);
         setError("Update failed");
@@ -54,6 +60,10 @@ const Profile = () => {
   
 
     return (
+      <>
+      {alert && 
+        <Popup alert={alert} setAlert={setAlert} />
+        }
       <div className="container">
         <h1>Edit Profile</h1>
         <hr />
@@ -91,6 +101,7 @@ const Profile = () => {
   
         <hr />
       </div>
+      </>
     );
   };
   

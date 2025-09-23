@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-const AddEventForm = ({events,setEvents,token}) =>{
+const AddEventForm = ({events,setEvents,token,alert,setAlert}) =>{
 
     const navigate = useNavigate();
 
@@ -15,13 +15,14 @@ const AddEventForm = ({events,setEvents,token}) =>{
     const[salleImage,setSalleImage]=useState('');
     const[eventImage,setEventImage]=useState('');
     const [error, setError] = useState("");
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
         try {
 
             const response = await axios.post(
-                "http://localhost:9092/events",
+                "http://localhost:8888/EVENT-SERVICE/events",
                 {
                      title,
                      location,
@@ -38,7 +39,13 @@ const AddEventForm = ({events,setEvents,token}) =>{
 
             console.log("Event successful:", response.data);
             setEvents([...events,response.data]);
+            setAlert({
+              type: "success",
+              message: "Event added successfully!",
+              show: true,
+            });
             navigate(`/add_class/${response.data.idEvent}`);
+
 
         } catch (err) {
             console.error("Event error:", err);

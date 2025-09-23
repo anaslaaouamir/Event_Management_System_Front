@@ -2,14 +2,21 @@ import { useContext } from "react";
 import Reservation from "./reservation";
 import "./reservation_list.css";
 import DataContext from "../context/DataContext";
+import Popup from "../pop_up";
 
 
 const ReservationList = () =>{
 
-    const{reservations, setReservations, token, events, setEvents} = useContext(DataContext);
+    const{reservations, setReservations, token, events, setEvents, alert, setAlert, confirm, setConfirm} = useContext(DataContext);
 
     return (
 
+		<>
+		{alert && 
+        <Popup alert={alert} setAlert={setAlert} />
+        }
+		
+ 
 		<div className="container">
 			<div className="row justify-content-center">
 				<div className="col-md-6 text-center mb-4">
@@ -31,13 +38,13 @@ const ReservationList = () =>{
                               <th>Cancel</th>
 						    </tr>
 						  </thead>
-						  <Reservation reservations={reservations} setReservations={setReservations} token={token} events={events} setEvents={setEvents} />
+						  <Reservation  confirm={confirm} setConfirm={setConfirm} reservations={reservations} setReservations={setReservations} token={token} events={events} setEvents={setEvents} setAlert={setAlert}/>
 						</table>
 					</div>
 				</div>
 			</div>
 		</div>
-
+		</>
     );
 }
 

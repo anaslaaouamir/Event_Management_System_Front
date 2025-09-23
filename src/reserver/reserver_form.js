@@ -3,8 +3,9 @@ import './reserver.css';
 import axios from "axios"; 
 import { useContext } from 'react';
 import DataContext from '../context/DataContext';
+import Popup from '../pop_up';
 
-const ReserverForm = ({ event, classes, token, setEvents }) => {
+const ReserverForm = ({ event, classes, token, setEvents, alert, setAlert }) => {
     const { client, setReservations , reservations,events} = useContext(DataContext);
     const [selectedClasseId, setSelectedClasseId] = useState("");
     const [error, setError] = useState("");
@@ -27,10 +28,15 @@ const ReserverForm = ({ event, classes, token, setEvents }) => {
                 if(element.idClass == Number(selectedClasseId))
                     classe=element;
             });
-              console.log(token)
+              console.log("data: ", client.idClient,   // ✅ use client id
+                 event.idEvent,
+                 event,           // ✅ event id from props
+                Number(selectedClasseId),  // ✅ from select
+                classe,
+                getNowDateTime())
               
             const response = await axios.post(
-                "http://localhost:9093/reservations",
+                "http://localhost:8888/RESERVATION-SERVICE/reservations",
                 {
                     idClient: client.idClient,   // ✅ use client id
                     idEvent: event.idEvent,
@@ -80,8 +86,8 @@ const ReserverForm = ({ event, classes, token, setEvents }) => {
 
         // 6. Set the new events array into state
         setEvents(updatedEvents);
+        setAlert({type:'success' , message:'Your seat is saved! 🎉 Enjoy the event!', show:true});
 
-            // 👉 you can redirect or show success message here
         } catch (err) {
             console.error("Reservation error:", err);
             setError("Reservation failed");
@@ -89,6 +95,12 @@ const ReserverForm = ({ event, classes, token, setEvents }) => {
     };
 
     return (
+
+        <>
+
+        {alert && 
+        <Popup alert={alert} setAlert={setAlert} />
+        }
         
         <form onSubmit={handleSubmit}>
             <div className="form-group">
@@ -152,11 +164,15 @@ const ReserverForm = ({ event, classes, token, setEvents }) => {
             {error && <p className="error">{error}</p>}
 
             <div className="form-btn">
+                <center>
                 <button type="submit" className="submit-btn">
-                    Proceed for checkOut
+                    Reserve
                 </button>
+                </center>
             </div>
         </form>
+
+        </>
     );
 };
 

@@ -21,7 +21,7 @@ export const DataProvider = ({ children }) => {
 
     const [client, setClient] = useState(null);
 
-    const { data, fetchError, isLoading } = useAxiosFetch('http://localhost:9092/events');
+    const { data, fetchError, isLoading } = useAxiosFetch('http://localhost:8888/EVENT-SERVICE/events');
 
     const [token, setToken] = useState(localStorage.getItem('token') || null);
 
@@ -32,6 +32,15 @@ export const DataProvider = ({ children }) => {
     const[searchLabel,setSearchLabel]=useState('Search Event');
 
     const [reservationsByEventResults, setReservationsByEventResults] = useState([]);
+
+    const [alert,setAlert]=useState({type:null , message:null, show:false});
+
+    const [confirm,setConfirm]=useState(false);
+
+    const [recomendations, setRecomendations] = useState([]);
+
+    const [recomendationsLoading, setRecomendationsLoading] = useState(false);
+
 
     const login = (newToken) => {
         setToken(newToken);
@@ -71,6 +80,7 @@ export const DataProvider = ({ children }) => {
         setEvents(data);
     }, [data])
 
+
     useEffect(() => {
         const filteredResults = events.filter((event) =>
             ((event.description).toLowerCase()).includes(search.toLowerCase())
@@ -93,7 +103,7 @@ export const DataProvider = ({ children }) => {
     useEffect(() => {
         
         if (token) {
-            axios.get("http://localhost:9091/clients/me", {
+            axios.get("http://localhost:8888/CLIENT-SERVICE/clients/me", {
                 headers: { Authorization: `Bearer ${token}` }
             })
             
@@ -107,7 +117,7 @@ export const DataProvider = ({ children }) => {
     useEffect(() => {
         if (token && client) {
             console.log("Fetching reservations for client:", client.idClient);
-            axios.get(`http://localhost:9093/reservations_client/${client.idClient}`, {
+            axios.get(`http://localhost:8888/RESERVATION-SERVICE/reservations_client/${client.idClient}`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
             .then(response => {
@@ -122,7 +132,7 @@ export const DataProvider = ({ children }) => {
     
     useEffect(() => {
         if (token && eventId) {
-            axios.get(`http://localhost:9093/reservations_event/${eventId}`, {
+            axios.get(`http://localhost:8888/RESERVATION-SERVICE/reservations_event/${eventId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
             .then(response => {
@@ -132,6 +142,22 @@ export const DataProvider = ({ children }) => {
             .catch(error => console.error("Error fetching reservations:", error));
         }
     }, [token, eventId]);   
+
+
+    useEffect(() => {
+        if (token && client) {
+            setRecomendationsLoading(true);
+            axios.get(`http://localhost:8888/RECOMMEND-EVENTS/events_recommanded/${client.idClient}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            .then(response => {
+                console.log("recommandations:", response.data);
+                setRecomendations(response.data);
+            })
+            .catch(error => console.error("Error fetching reservations:", error))
+            .finally(() => setRecomendationsLoading(false)); 
+        }
+    }, [token, client,reservations]);   
     
 
     return (
@@ -143,7 +169,10 @@ export const DataProvider = ({ children }) => {
             login, token, logout,
             reservations, setReservations,
             setEventId, reservationsByEvent, setReservationsByEvent,
-            setSearchResults,searchLabel,setSearchLabel, reservationsByEventResults
+            setSearchResults,searchLabel,setSearchLabel, reservationsByEventResults,
+            alert, setAlert,
+            confirm,setConfirm,
+            recomendations,recomendationsLoading
         }}>
             {children}
         </DataContext.Provider>

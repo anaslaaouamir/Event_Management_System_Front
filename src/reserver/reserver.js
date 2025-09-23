@@ -7,7 +7,7 @@ import { useContext } from "react";
 
 const Reserver = ()=>{
 
-	const {token} = useContext(DataContext);
+	const {token, alert, setAlert} = useContext(DataContext);
 
 	const { id } = useParams();
   	const { events, isLoading , setEvents} = useContext(DataContext);
@@ -30,7 +30,7 @@ const Reserver = ()=>{
 							<h1>{event.title}</h1>
 						</div>
                         
-						<ReserverForm event={event} classes={classes} token= {token} setEvents={setEvents} events={events} />
+						<ReserverForm alert={alert} setAlert={setAlert} event={event} classes={classes} token= {token} setEvents={setEvents} events={events} />
                         
 					</div>
 				</div>

@@ -2,20 +2,42 @@ import "./reservation_list.css";
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios"; 
+import { useEffect, useState } from "react";
 
-
-const Reservation = ({reservations, setReservations,token, events, setEvents}) =>{
+ 
+const Reservation = ({reservations, setReservations,token, events, setEvents, setAlert,confirm,setConfirm}) =>{
 
     const formattedDate = (date) =>{return date ? date.replace("T", " at ").slice(0, 16) : ''};
     const formattedDate1 = (date) =>{return date ? date.slice(0, 10) : ''};
+    const [id,setId]= useState(null);
+    const [idEvent,setIdEvent]=useState(null);
+    const [idClass,setIdClass]=useState(null);
 
     const navigate = useNavigate();
+
+    const deleteReservation= (idReservatino,idEv,idCls)=>{
+        setAlert({type:'info' , message:'Are you sure you want to cancel you reservation?', show:true});
+        setId(idReservatino);
+        setIdEvent(idEv);
+        setIdClass(idCls);
+    }
+
+
+    useEffect(() => {
+        if(confirm)
+            {console.log("inside use effect")
+        console.log(confirm,'   *   ',id ,'   *   ', idEvent ,'   *   ', idClass)
+        if(confirm === true && id && idEvent && idClass){
+            handleDelete(id,idEvent,idClass);
+            
+        }}
+    }, [confirm,id , idEvent , idClass]);
 
     const handleDelete = async (id,idEvent,idClass) => {
         try {
 
             const response = await axios.delete(
-                `http://localhost:9093/reservations/${id}`,
+                `http://localhost:8888/RESERVATION-SERVICE/reservations/${id}`,
                 {
                     headers: { Authorization: `Bearer ${token}` }
                 }
@@ -56,6 +78,15 @@ const Reservation = ({reservations, setReservations,token, events, setEvents}) =
 
         // 6. Set the new events array into state
         setEvents(updatedEvents);
+
+        setConfirm(false)
+
+        setAlert({
+            type: "success",
+            message: "Your reservation has been cancelled successfully. We hope to see you again soon!",
+            show: true,
+          });
+          
             
         } catch (err) {
             console.log(`Error: ${err.message}`);
@@ -87,7 +118,9 @@ const Reservation = ({reservations, setReservations,token, events, setEvents}) =
 				                <td>{formattedDate1(reservation.reservationDateTime)}</td>
 						      
                               <td>
-                              <button className="p-2 rounded-full hover:bg-gray-200" onClick={()=>handleDelete(reservation.idReservation,reservation.idEvent,reservation.idClasse)} >
+                              <button className="p-2 rounded-full hover:bg-gray-200" onClick={()=>deleteReservation(reservation.idReservation,reservation.idEvent,reservation.idClasse)} 
+                            //   onClick={()=>handleDelete(reservation.idReservation,reservation.idEvent,reservation.idClasse)} 
+                            >
                                 <CancelIcon style={{ color: "red", fontSize: 30 }} />
                             </button>
                               </td>

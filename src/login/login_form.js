@@ -2,18 +2,17 @@ import axios from 'axios';
 import { useState, useContext } from 'react';
 import './login.css';
 import { useNavigate } from 'react-router-dom';
-import DataContext from '../context/DataContext';
 
 
 
-const LoginForm = () => {
+
+const LoginForm = ({login,setAlert}) => {
     const navigate = useNavigate();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
-    const { login } = useContext(DataContext);
     
 
     const handleSubmit = async (e) => {
@@ -21,7 +20,7 @@ const LoginForm = () => {
         setError(''); // reset error
 
         try {
-            const response = await axios.post('http://localhost:9091/login', {
+            const response = await axios.post('http://localhost:8888/CLIENT-SERVICE/login', {
                 username: username,
                 password: password
             }, {
@@ -44,6 +43,11 @@ const LoginForm = () => {
         } catch (err) {
             console.error('Login error:', err);
             setError('Invalid username or password');
+            setAlert({
+                type: "error",
+                message: "Invalid username or password!",
+                show: true,
+              });
         }
 
     };
@@ -84,7 +88,7 @@ const LoginForm = () => {
                 <span className="btn-text">Sign In</span>
             </button>
         </form>
-    );
+    ); 
 };
 
 export default LoginForm;

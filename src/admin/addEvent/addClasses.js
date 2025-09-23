@@ -3,12 +3,13 @@ import AddClassForm from './addClassForm';
 import './addEvent.css';
 import { useParams } from "react-router-dom";
 import DataContext from '../../context/DataContext';
+import Popup from '../../pop_up';
 
 
 const AddClass = ()=>{
 
     const { id } = useParams();
-    const { events, isLoading, setEvents, token} = useContext(DataContext);
+    const { events, isLoading, setEvents, token, alert, setAlert} = useContext(DataContext);
 
     if (isLoading) return <h2>Loading...</h2>;
 
@@ -17,6 +18,11 @@ const AddClass = ()=>{
     if (!event) return <h2>Error: Event not found</h2>;
 
     return(
+		<>
+		{alert && 
+        <Popup alert={alert} setAlert={setAlert} />
+        }
+		
 <div
 			id="booking"
 			className="section"
@@ -36,13 +42,14 @@ const AddClass = ()=>{
                             <h1>{event.title} </h1>
 						</div>
                         
-						<AddClassForm event={event} token={token} events = {events} setEvents={setEvents} />
+						<AddClassForm event={event} token={token} events = {events} setEvents={setEvents} setAlert={setAlert} />
                         
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	</>
     );
 }
 

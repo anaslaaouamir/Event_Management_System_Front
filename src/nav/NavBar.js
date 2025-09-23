@@ -310,7 +310,7 @@ function ResponsiveAppBar() {
     </MenuItem> 
     </Link>
 
-    <Link to={`/`}>
+    <Link to={`/register`}>
     <MenuItem
       key='register'
       onClick={handleCloseUserMenu}

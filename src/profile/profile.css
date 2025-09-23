@@ -25,3 +25,13 @@
  padding-top: 15px;   
   color: var(--dark-color);
 }
+
+
+.popup-container {
+  position: fixed;     /* stay on screen, not page */
+  top: 20px;           /* 20px from top */
+  right: 20px;         /* 20px from right */
+  z-index: 9999;       /* always above */
+  width: auto;
+  max-width: 350px;
+}

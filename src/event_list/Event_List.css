@@ -229,3 +229,36 @@ p {
   padding: 2px 6px;
   border-radius: 4px;
 }
+
+
+
+
+h1 {
+  
+  font-size: 3rem;
+  font-weight: 1500;
+  margin: 2rem 0 1.5rem;
+  text-align: left; /* left-aligned, like Netflix sections */
+  position: relative;
+  color: #fff;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.7); /* cinematic glow */
+}
+
+/* Add a red underline accent (Netflix vibe) */
+h1::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 250px;
+  height: 4px;
+  background: linear-gradient(90deg, #fbff03, #d1ce09);
+  border-radius: 2px;
+}
+
+
+
+
+
