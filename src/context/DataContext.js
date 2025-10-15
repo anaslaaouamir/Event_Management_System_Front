@@ -147,7 +147,7 @@ export const DataProvider = ({ children }) => {
     useEffect(() => {
         if (token && client) {
             setRecomendationsLoading(true);
-            axios.get(`http://localhost:8888/RECOMMEND-EVENTS/events_recommanded/${client.idClient}`, {
+            axios.get(`http://localhost:8888/FASTAPI-SERVICE/events_recommanded/${client.idClient}`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
             .then(response => {
