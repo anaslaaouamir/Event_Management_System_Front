@@ -21,7 +21,7 @@ export const DataProvider = ({ children }) => {
 
     const [client, setClient] = useState(null);
 
-    const { data, fetchError, isLoading } = useAxiosFetch('http://localhost:8888/EVENT-SERVICE/events');
+    const { data, fetchError, isLoading } = useAxiosFetch('http://gateway-service:8888/EVENT-SERVICE/events');
 
     const [token, setToken] = useState(localStorage.getItem('token') || null);
 
@@ -103,7 +103,7 @@ export const DataProvider = ({ children }) => {
     useEffect(() => {
         
         if (token) {
-            axios.get("http://localhost:8888/CLIENT-SERVICE/clients/me", {
+            axios.get("http://gateway-service:8888/CLIENT-SERVICE/clients/me", {
                 headers: { Authorization: `Bearer ${token}` }
             })
             
@@ -117,7 +117,7 @@ export const DataProvider = ({ children }) => {
     useEffect(() => {
         if (token && client) {
             console.log("Fetching reservations for client:", client.idClient);
-            axios.get(`http://localhost:8888/RESERVATION-SERVICE/reservations_client/${client.idClient}`, {
+            axios.get(`http://gateway-service:8888/RESERVATION-SERVICE/reservations_client/${client.idClient}`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
             .then(response => {
@@ -132,7 +132,7 @@ export const DataProvider = ({ children }) => {
     
     useEffect(() => {
         if (token && eventId) {
-            axios.get(`http://localhost:8888/RESERVATION-SERVICE/reservations_event/${eventId}`, {
+            axios.get(`http://gateway-service:8888/RESERVATION-SERVICE/reservations_event/${eventId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
             .then(response => {
@@ -147,7 +147,7 @@ export const DataProvider = ({ children }) => {
     useEffect(() => {
         if (token && client) {
             setRecomendationsLoading(true);
-            axios.get(`http://localhost:8888/FASTAPI-SERVICE/events_recommanded/${client.idClient}`, {
+            axios.get(`http://gateway-service:8888/FASTAPI-SERVICE/events_recommanded/${client.idClient}`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
             .then(response => {
